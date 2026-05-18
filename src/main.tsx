@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { AppShell } from './components/AppShell'
 import './styles.css'
 import { Contact } from './pages/Contact'
 import { Ecosystem } from './pages/Ecosystem'
 import { Home } from './pages/Home'
-import { Insights } from './pages/Insights'
+import { Podcasts } from './pages/Podcasts'
 import { NotFound } from './pages/NotFound'
 import { SpringChallenges } from './pages/SpringChallenges'
 
@@ -18,7 +18,8 @@ const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: '/spring-challenges', element: <SpringChallenges /> },
       { path: '/ecosystem', element: <Ecosystem /> },
-      { path: '/insights', element: <Insights /> },
+      { path: '/podcasts', element: <Podcasts /> },
+      { path: '/insights', element: <Navigate to="/podcasts" replace /> },
       { path: '/contact', element: <Contact /> },
     ],
   },

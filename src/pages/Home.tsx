@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { Blocks, Compass, Handshake, Layers3, ShieldCheck, Workflow } from 'lucide-react'
 import { ChallengeCard } from '../components/ChallengeCard'
 import { CTAButton } from '../components/CTAButton'
@@ -8,11 +7,11 @@ import { GlassPanel } from '../components/GlassPanel'
 import { Hero } from '../components/Hero'
 import { ImageCard } from '../components/ImageCard'
 import { PartnerCard } from '../components/PartnerCard'
+import { PodcastHub } from '../components/PodcastHub'
 import { SectionHeader } from '../components/SectionHeader'
 import { StatCard } from '../components/StatCard'
 import { challenges } from '../data/challenges'
 import { ecosystemNodes } from '../data/ecosystem'
-import { insights } from '../data/insights'
 import { partners } from '../data/partners'
 import { stats } from '../data/stats'
 
@@ -75,11 +74,7 @@ export function Home() {
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">{partners.map((partner) => <PartnerCard key={partner.name} partner={partner} />)}</div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-3">
-          {insights.map((insight) => <motion.article key={insight.title} whileHover={{ y: -6 }} className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.055]"><img src={insight.image} alt="" className="h-48 w-full object-cover opacity-80" /><div className="p-6"><p className="text-xs uppercase tracking-[0.24em] text-cyanMist">{insight.eyebrow}</p><h3 className="mt-3 text-xl font-semibold text-bone">{insight.title}</h3><p className="mt-3 leading-7 text-steel">{insight.excerpt}</p></div></motion.article>)}
-        </div>
-      </section>
+      <PodcastHub compact />
 
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
         <GlassPanel className="p-8 md:p-12">

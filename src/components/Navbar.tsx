@@ -7,7 +7,7 @@ const links = [
   { to: '/', label: 'Platform' },
   { to: '/spring-challenges', label: 'Spring Challenges' },
   { to: '/ecosystem', label: 'Ecosystem' },
-  { to: '/insights', label: 'Insights' },
+  { to: '/podcasts', label: 'Podcasts' },
   { to: '/contact', label: 'Contact' },
 ]
 
