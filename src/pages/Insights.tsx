@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { SectionHeader } from '../components/SectionHeader'
 import { useI18n } from '../i18n/I18nProvider'
-import { localizeInsight } from '../i18n/localize'
-import { copy, localizedInsights } from '../i18n/translations'
+import { copy } from '../i18n/translations'
 
 type PodcastEpisode = {
   id: string
@@ -27,12 +26,10 @@ function parseYoutubeFeed(xml: string): PodcastEpisode[] {
     .slice(1)
     .map((entry) => {
       const videoId = extractTagValue(entry, 'yt:videoId')
-      const title = extractTagValue(entry, 'title')
-      const published = extractTagValue(entry, 'published')
       return {
         id: videoId,
-        title,
-        published,
+        title: extractTagValue(entry, 'title'),
+        published: extractTagValue(entry, 'published'),
         link: `https://www.youtube.com/watch?v=${videoId}`,
         thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
       }
@@ -42,11 +39,10 @@ function parseYoutubeFeed(xml: string): PodcastEpisode[] {
 
 export function Insights() {
   const { locale, t } = useI18n()
-  const insights = localizedInsights.map((insight) => localizeInsight(insight, locale))
   const [episodes, setEpisodes] = useState<PodcastEpisode[]>([])
+  const [selectedEpisode, setSelectedEpisode] = useState<PodcastEpisode | null>(null)
   const [isLoadingPodcasts, setIsLoadingPodcasts] = useState(true)
   const [podcastError, setPodcastError] = useState(false)
-  const carouselRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -57,20 +53,17 @@ export function Insights() {
         if (!response.ok) throw new Error('Unable to load podcast feed')
 
         const xml = await response.text()
-        const items = parseYoutubeFeed(xml).slice(0, 12)
+        const items = parseYoutubeFeed(xml).slice(0, 20)
 
         if (isMounted) {
           setEpisodes(items)
+          setSelectedEpisode(items[0] ?? null)
           setPodcastError(items.length === 0)
         }
-      } catch (error) {
-        if (isMounted) {
-          setPodcastError(true)
-        }
+      } catch {
+        if (isMounted) setPodcastError(true)
       } finally {
-        if (isMounted) {
-          setIsLoadingPodcasts(false)
-        }
+        if (isMounted) setIsLoadingPodcasts(false)
       }
     }
 
@@ -85,83 +78,94 @@ export function Insights() {
     () =>
       locale === 'es'
         ? {
-            podcastsEyebrow: 'Podcast ANNIA Hub',
-            podcastsTitle: 'Podcasts y entrevistas para navegar el cambio',
-            podcastsDescription: 'Episodios conectados a nuestros insights. Explora de forma lateral y abre el episodio completo en YouTube.',
+            latest: 'Más recientes',
+            seeAll: 'Ir al canal',
             loading: 'Cargando episodios…',
-            empty: 'No pudimos cargar los episodios por ahora. Puedes verlos directamente en el canal de YouTube.',
-            openChannel: 'Ir al canal',
-            listenEpisode: 'Ver episodio',
-            previous: 'Anterior',
-            next: 'Siguiente',
+            empty: 'No pudimos cargar episodios por ahora. Puedes verlos directamente en el canal.',
+            playOnYoutube: 'Reproducir en YouTube',
+            chooseEpisode: 'Selecciona un episodio para previsualizarlo.',
           }
         : {
-            podcastsEyebrow: 'ANNIA Hub Podcast',
-            podcastsTitle: 'Podcasts and interviews to navigate complexity',
-            podcastsDescription: 'Episodes connected to our insights. Browse laterally and open the full conversation on YouTube.',
+            latest: 'Latest episodes',
+            seeAll: 'Open channel',
             loading: 'Loading episodes…',
-            empty: 'We could not load episodes right now. You can still browse them directly on YouTube.',
-            openChannel: 'Open channel',
-            listenEpisode: 'Watch episode',
-            previous: 'Previous',
-            next: 'Next',
+            empty: 'We could not load episodes right now. You can still browse directly on the channel.',
+            playOnYoutube: 'Play on YouTube',
+            chooseEpisode: 'Select an episode to preview it.',
           },
     [locale]
   )
 
-  const scrollByCards = (direction: 'left' | 'right') => {
-    const container = carouselRef.current
-    if (!container) return
-    const amount = Math.max(container.clientWidth * 0.8, 320)
-    container.scrollBy({ left: direction === 'left' ? -amount : amount, behavior: 'smooth' })
-  }
+  const visibleEpisodes = episodes.slice(0, 4)
 
   return (
     <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
       <SectionHeader eyebrow={t(copy.insightsPage.eyebrow)} title={t(copy.insightsPage.title)} description={t(copy.insightsPage.description)} />
-      <div className="mt-10 grid gap-6 md:grid-cols-3">
-        {insights.map((insight) => <article key={insight.title} className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.055]"><img src={insight.image} alt="" className="h-56 w-full object-cover opacity-80" /><div className="p-6"><p className="text-xs uppercase tracking-[0.24em] text-cyanMist">{insight.eyebrow}</p><h2 className="mt-3 text-xl font-semibold text-bone">{insight.title}</h2><p className="mt-3 leading-7 text-steel">{insight.excerpt}</p><p className="mt-5 text-sm text-arctic">{insight.readTime}</p></div></article>)}
-      </div>
 
-      <section className="mt-16 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 md:p-8">
-        <SectionHeader eyebrow={text.podcastsEyebrow} title={text.podcastsTitle} description={text.podcastsDescription} />
+      <div className="mt-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 md:p-8">
+        {isLoadingPodcasts && <p className="text-sm text-steel">{text.loading}</p>}
+        {!isLoadingPodcasts && podcastError && <p className="text-sm text-steel">{text.empty}</p>}
 
-        <div className="mt-6 flex items-center justify-between gap-3">
-          <a
-            href={PODCAST_CHANNEL_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-bone transition hover:border-cyanMist/70"
-          >
-            {text.openChannel}
-          </a>
-          <div className="flex gap-2">
-            <button type="button" onClick={() => scrollByCards('left')} className="rounded-full border border-white/15 px-4 py-2 text-sm text-bone hover:border-cyanMist/70" aria-label={text.previous}>←</button>
-            <button type="button" onClick={() => scrollByCards('right')} className="rounded-full border border-white/15 px-4 py-2 text-sm text-bone hover:border-cyanMist/70" aria-label={text.next}>→</button>
-          </div>
-        </div>
+        {!isLoadingPodcasts && !podcastError && selectedEpisode && (
+          <>
+            <div className="grid gap-6 lg:grid-cols-[1.25fr_.75fr]">
+              <div>
+                <div className="overflow-hidden rounded-3xl border border-white/10 bg-black">
+                  <iframe
+                    title={selectedEpisode.title}
+                    src={`https://www.youtube.com/embed/${selectedEpisode.id}`}
+                    className="aspect-video w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+                <h2 className="mt-4 text-xl font-semibold text-bone">{selectedEpisode.title}</h2>
+                <a href={selectedEpisode.link} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-sm font-medium text-arctic underline decoration-arctic/40 underline-offset-4">
+                  {text.playOnYoutube}
+                </a>
+              </div>
 
-        {isLoadingPodcasts && <p className="mt-6 text-sm text-steel">{text.loading}</p>}
-
-        {!isLoadingPodcasts && podcastError && <p className="mt-6 text-sm text-steel">{text.empty}</p>}
-
-        {!isLoadingPodcasts && !podcastError && (
-          <div ref={carouselRef} className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
-            {episodes.map((episode) => (
-              <article key={episode.id} className="group min-w-[280px] max-w-[280px] snap-start overflow-hidden rounded-3xl border border-white/10 bg-midnight/80">
-                <img src={episode.thumbnail} alt={episode.title} className="h-40 w-full object-cover transition duration-300 group-hover:scale-[1.02]" loading="lazy" />
-                <div className="p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-cyanMist">{new Date(episode.published).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
-                  <h3 className="mt-2 line-clamp-2 text-base font-semibold text-bone">{episode.title}</h3>
-                  <a href={episode.link} target="_blank" rel="noreferrer" className="mt-4 inline-flex text-sm font-medium text-arctic underline decoration-arctic/40 underline-offset-4">
-                    {text.listenEpisode}
+              <div>
+                <div className="mb-3 flex items-center justify-between">
+                  <p className="text-xs uppercase tracking-[0.2em] text-cyanMist">{text.latest}</p>
+                  <a href={PODCAST_CHANNEL_URL} target="_blank" rel="noreferrer" className="text-sm font-medium text-bone hover:text-cyanMist">
+                    {text.seeAll}
                   </a>
                 </div>
-              </article>
-            ))}
-          </div>
+                <div className="grid gap-3">
+                  {visibleEpisodes.map((episode) => (
+                    <button
+                      key={episode.id}
+                      type="button"
+                      onClick={() => setSelectedEpisode(episode)}
+                      className={`grid w-full grid-cols-[96px_1fr] gap-3 rounded-2xl border p-2 text-left transition ${
+                        selectedEpisode.id === episode.id ? 'border-cyanMist/60 bg-cyanMist/10' : 'border-white/10 bg-midnight/60 hover:border-cyanMist/35'
+                      }`}
+                    >
+                      <img src={episode.thumbnail} alt={episode.title} className="h-16 w-24 rounded-xl object-cover" loading="lazy" />
+                      <div>
+                        <p className="line-clamp-2 text-sm font-medium text-bone">{episode.title}</p>
+                        <p className="mt-1 text-xs text-steel">
+                          {new Date(episode.published).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                          })}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                {episodes.length > 4 && (
+                  <p className="mt-4 text-xs text-steel">{locale === 'es' ? 'Mostrando los 4 más recientes. En el canal puedes navegar todos.' : 'Showing the latest 4. Browse all episodes in the channel.'}</p>
+                )}
+              </div>
+            </div>
+          </>
         )}
-      </section>
+
+        {!isLoadingPodcasts && !podcastError && !selectedEpisode && <p className="text-sm text-steel">{text.chooseEpisode}</p>}
+      </div>
     </div>
   )
 }
