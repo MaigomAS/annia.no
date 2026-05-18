@@ -1,0 +1,17 @@
+<svg width="220" height="56" viewBox="0 0 220 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="28" cy="28" r="20" fill="url(#g)"/>
+  <g fill="#0F1D3C">
+    <rect x="27" y="14" width="2" height="28"/>
+    <path d="M20 25L26 19V25L20 30L22 25Z"/>
+    <path d="M36 25L30 19V25L36 30L34 25Z"/>
+    <path d="M20 31L26 37V31L20 26L22 31Z"/>
+    <path d="M36 31L30 37V31L36 26L34 31Z"/>
+  </g>
+  <text x="60" y="37" fill="#F5F8FF" font-size="32" font-family="Inter, Arial, sans-serif" letter-spacing="0.16em">ANNiA</text>
+  <defs>
+    <linearGradient id="g" x1="8" y1="8" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5F8FF"/>
+      <stop offset="1" stop-color="#C9D9FF"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -19,8 +19,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-midnight/70 backdrop-blur-2xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8" aria-label="Primary navigation">
         <NavLink to="/" className="flex items-center gap-3" aria-label="ANNIA home">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-cyanMist/40 bg-cyanMist/10 text-sm font-bold text-cyanMist">A</span>
-          <span className="text-lg font-semibold tracking-[0.24em] text-bone">ANNIA</span>
+          <img src="/assets/brand/annia-logo.svg" alt="ANNIA" className="h-10 w-auto" />
         </NavLink>
         <div className="hidden items-center gap-1 lg:flex">
           {links.map((link) => <NavLink key={link.to} to={link.to} className={linkClass}>{link.label}</NavLink>)}
@@ -32,6 +31,7 @@ export function Navbar() {
       </nav>
       {open ? (
         <div id="mobile-menu" className="border-t border-white/10 px-5 py-4 lg:hidden">
+          <div className="mb-4"><img src="/assets/brand/annia-logo.svg" alt="ANNIA" className="h-9 w-auto" /></div>
           <div className="flex flex-col gap-2">
             {links.map((link) => <NavLink key={link.to} to={link.to} className={linkClass} onClick={() => setOpen(false)}>{link.label}</NavLink>)}
           </div>
