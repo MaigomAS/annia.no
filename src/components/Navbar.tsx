@@ -44,7 +44,7 @@ export function Navbar() {
         <div id="mobile-menu" className="border-t border-white/10 px-5 py-4 lg:hidden">
           <div className="flex flex-col gap-2">
             {navigation.map((link) => <NavLink key={link.to} to={link.to} className={linkClass} onClick={() => setOpen(false)}>{t(link.label)}</NavLink>)}
-            <div className="pt-2"><CTAButton to="/systemthinking/" variant="secondary">{t(copy.nav.partnerInvitePrimary)}</CTAButton></div>
+            <div className="pt-2"><a className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-5 py-3 text-sm font-semibold text-bone transition hover:border-cyanMist/50 hover:bg-white/12" href="https://annia.no/systemthinking/" target="_blank" rel="noreferrer">{t(copy.nav.partnerInvitePrimary)}</a></div>
           </div>
         </div>
       ) : null}
@@ -56,8 +56,8 @@ export function Navbar() {
               <p className="mt-1 text-sm text-steel">{t(copy.nav.partnerInviteDescription)}</p>
             </div>
             <div className="flex flex-col gap-2 sm:flex-row">
-              <CTAButton to="/systemthinking/">{t(copy.nav.partnerInvitePrimary)}</CTAButton>
-              <a className="inline-flex items-center justify-center rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-bone transition hover:border-cyanMist/50 hover:bg-white/12" href="/systemthinking/" target="_blank" rel="noreferrer">{t(copy.nav.partnerInviteSecondary)}</a>
+              <a className="group inline-flex items-center gap-2 rounded-full border border-cyanMist/60 bg-cyanMist px-5 py-3 text-sm font-semibold text-midnight shadow-glow transition hover:bg-arctic" href="https://annia.no/systemthinking/">{t(copy.nav.partnerInvitePrimary)}</a>
+              <a className="inline-flex items-center justify-center rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-bone transition hover:border-cyanMist/50 hover:bg-white/12" href="https://annia.no/systemthinking/" target="_blank" rel="noreferrer">{t(copy.nav.partnerInviteSecondary)}</a>
             </div>
           </div>
         </div>
