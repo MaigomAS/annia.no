@@ -8,6 +8,7 @@ import { LanguageSwitch } from './LanguageSwitch'
 
 export function Navbar() {
   const [open, setOpen] = useState(false)
+  const [showPartnerInvite, setShowPartnerInvite] = useState(false)
   const { t } = useI18n()
   const linkClass = ({ isActive }: { isActive: boolean }) => `rounded-full px-3 py-2 text-sm transition ${isActive ? 'bg-white/10 text-bone' : 'text-steel hover:text-bone'}`
 
@@ -21,7 +22,17 @@ export function Navbar() {
         <div className="hidden items-center gap-1 lg:flex">
           {navigation.map((link) => <NavLink key={link.to} to={link.to} className={linkClass}>{t(link.label)}</NavLink>)}
         </div>
-        <div className="hidden items-center gap-3 lg:flex"><LanguageSwitch /><CTAButton to="/contact" variant="secondary">{t(copy.nav.partnerCta)}</CTAButton></div>
+        <div className="hidden items-center gap-3 lg:flex">
+          <LanguageSwitch />
+          <button
+            className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-5 py-3 text-sm font-semibold text-bone transition hover:border-cyanMist/50 hover:bg-white/12"
+            onClick={() => setShowPartnerInvite(!showPartnerInvite)}
+            aria-expanded={showPartnerInvite}
+            aria-controls="partner-invite"
+          >
+            {t(copy.nav.partnerCta)}
+          </button>
+        </div>
         <div className="flex items-center gap-2 lg:hidden">
           <LanguageSwitch />
           <button className="rounded-full border border-white/10 p-2 text-bone" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="mobile-menu">
@@ -33,7 +44,21 @@ export function Navbar() {
         <div id="mobile-menu" className="border-t border-white/10 px-5 py-4 lg:hidden">
           <div className="flex flex-col gap-2">
             {navigation.map((link) => <NavLink key={link.to} to={link.to} className={linkClass} onClick={() => setOpen(false)}>{t(link.label)}</NavLink>)}
-            <div className="pt-2"><CTAButton to="/contact" variant="secondary">{t(copy.nav.partnerCta)}</CTAButton></div>
+            <div className="pt-2"><CTAButton to="/systemthinking/" variant="secondary">{t(copy.nav.partnerInvitePrimary)}</CTAButton></div>
+          </div>
+        </div>
+      ) : null}
+      {showPartnerInvite ? (
+        <div id="partner-invite" className="border-t border-white/10 bg-midnight/90 px-5 py-4">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p className="text-sm font-semibold text-bone">{t(copy.nav.partnerInviteTitle)}</p>
+              <p className="mt-1 text-sm text-steel">{t(copy.nav.partnerInviteDescription)}</p>
+            </div>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <CTAButton to="/systemthinking/">{t(copy.nav.partnerInvitePrimary)}</CTAButton>
+              <a className="inline-flex items-center justify-center rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-bone transition hover:border-cyanMist/50 hover:bg-white/12" href="/systemthinking/" target="_blank" rel="noreferrer">{t(copy.nav.partnerInviteSecondary)}</a>
+            </div>
           </div>
         </div>
       ) : null}

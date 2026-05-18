@@ -75,6 +75,13 @@ export const copy = {
     aria: { es: 'Navegación principal', en: 'Primary navigation' },
     home: { es: 'Inicio de ANNIA', en: 'ANNIA home' },
     partnerCta: { es: 'Aplicar como aliado', en: 'Apply as Partner' },
+    partnerInviteTitle: { es: 'Explora nuestro evento de System Thinking', en: 'Explore our System Thinking event' },
+    partnerInviteDescription: {
+      es: 'Conoce la agenda, speakers y oportunidades de colaboración sin salir de ANNIA.',
+      en: 'Discover the agenda, speakers, and collaboration opportunities without leaving ANNIA.',
+    },
+    partnerInvitePrimary: { es: 'Explorar evento', en: 'Explore event' },
+    partnerInviteSecondary: { es: 'Abrir en nueva ventana', en: 'Open in new window' },
     languageLabel: { es: 'Idioma', en: 'Language' },
     autoLabel: { es: 'Detección inteligente', en: 'Smart detection' },
   },
