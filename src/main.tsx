@@ -1,12 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AppShell } from './components/AppShell'
+import { LanguageProvider } from './i18n'
 import './styles.css'
 import { Contact } from './pages/Contact'
 import { Ecosystem } from './pages/Ecosystem'
 import { Home } from './pages/Home'
 import { Podcasts } from './pages/Podcasts'
+import { Insights } from './pages/Insights'
 import { NotFound } from './pages/NotFound'
 import { SpringChallenges } from './pages/SpringChallenges'
 
@@ -19,7 +21,7 @@ const router = createBrowserRouter([
       { path: '/spring-challenges', element: <SpringChallenges /> },
       { path: '/ecosystem', element: <Ecosystem /> },
       { path: '/podcasts', element: <Podcasts /> },
-      { path: '/insights', element: <Navigate to="/podcasts" replace /> },
+      { path: '/insights', element: <Insights /> },
       { path: '/contact', element: <Contact /> },
     ],
   },
@@ -27,6 +29,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <LanguageProvider>
+      <RouterProvider router={router} />
+    </LanguageProvider>
   </React.StrictMode>,
 )
