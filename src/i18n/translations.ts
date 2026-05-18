@@ -66,7 +66,7 @@ export const navigation = [
   { to: '/', label: { es: 'Plataforma', en: 'Platform' } },
   { to: '/spring-challenges', label: { es: 'Retos Spring', en: 'Spring Challenges' } },
   { to: '/ecosystem', label: { es: 'Ecosistema', en: 'Ecosystem' } },
-  { to: '/insights', label: { es: 'Inteligencia', en: 'Insights' } },
+  { to: '/insights', label: { es: 'Podcasts', en: 'Podcasts' } },
   { to: '/contact', label: { es: 'Contacto', en: 'Contact' } },
 ]
 
@@ -218,11 +218,11 @@ export const copy = {
     },
   },
   insightsPage: {
-    eyebrow: { es: 'Inteligencia', en: 'Insights' },
-    title: { es: 'Reportes e inteligencia de campo para transformación estratégica.', en: 'Reports and field intelligence for strategic transformation.' },
+    eyebrow: { es: 'Podcasts', en: 'Podcasts' },
+    title: { es: 'Conversaciones para líderes que mueven sistemas', en: 'Conversations for leaders moving systems' },
     description: {
-      es: 'Vista previa de briefs y reportes que más adelante se conectarán con tableros de aliados, mercados de oportunidades y productos de inteligencia de ecosistema.',
-      en: 'Preview briefs and reports that will later connect to partner dashboards, opportunity marketplaces and ecosystem intelligence products.',
+      es: 'Explora nuestros episodios más recientes, reprodúcelos aquí y navega al canal completo cuando quieras ver más.',
+      en: 'Explore our latest episodes, play them here, and jump to the full channel whenever you want more.',
     },
   },
   contactPage: {
