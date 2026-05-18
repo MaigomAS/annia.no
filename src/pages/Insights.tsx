@@ -13,7 +13,11 @@ type PodcastEpisode = {
 
 const PODCAST_CHANNEL_URL = 'https://www.youtube.com/@ANNiA-Hub'
 const PODCAST_RSS_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCQ4hR0xXP4OX9h4QRGVIX7Q'
-const RSS_PROXY_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(PODCAST_RSS_URL)}`
+const RSS_PROXY_URLS = [
+  `https://api.allorigins.win/raw?url=${encodeURIComponent(PODCAST_RSS_URL)}`,
+  `https://r.jina.ai/http://www.youtube.com/feeds/videos.xml?channel_id=UCQ4hR0xXP4OX9h4QRGVIX7Q`,
+]
+const UPLOADS_PLAYLIST_ID = 'UUQ4hR0xXP4OX9h4QRGVIX7Q'
 
 function extractTagValue(entry: string, tagName: string): string {
   const match = entry.match(new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)<\\/${tagName}>`))
@@ -49,10 +53,19 @@ export function Insights() {
 
     const loadEpisodes = async () => {
       try {
-        const response = await fetch(RSS_PROXY_URL)
-        if (!response.ok) throw new Error('Unable to load podcast feed')
+        let xml = ''
+        for (const url of RSS_PROXY_URLS) {
+          try {
+            const response = await fetch(url)
+            if (!response.ok) continue
+            xml = await response.text()
+            if (xml.includes('<entry>')) break
+          } catch {
+            continue
+          }
+        }
 
-        const xml = await response.text()
+        if (!xml) throw new Error('Unable to load podcast feed')
         const items = parseYoutubeFeed(xml).slice(0, 20)
 
         if (isMounted) {
@@ -81,7 +94,7 @@ export function Insights() {
             latest: 'Más recientes',
             seeAll: 'Ir al canal',
             loading: 'Cargando episodios…',
-            empty: 'No pudimos cargar episodios por ahora. Puedes verlos directamente en el canal.',
+            empty: 'No pudimos cargar el listado automático. Puedes reproducir el canal aquí o abrir YouTube.',
             playOnYoutube: 'Reproducir en YouTube',
             chooseEpisode: 'Selecciona un episodio para previsualizarlo.',
           }
@@ -89,7 +102,7 @@ export function Insights() {
             latest: 'Latest episodes',
             seeAll: 'Open channel',
             loading: 'Loading episodes…',
-            empty: 'We could not load episodes right now. You can still browse directly on the channel.',
+            empty: 'We could not load the automatic feed. You can still play the channel stream here or open YouTube.',
             playOnYoutube: 'Play on YouTube',
             chooseEpisode: 'Select an episode to preview it.',
           },
@@ -104,7 +117,23 @@ export function Insights() {
 
       <div className="mt-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 md:p-8">
         {isLoadingPodcasts && <p className="text-sm text-steel">{text.loading}</p>}
-        {!isLoadingPodcasts && podcastError && <p className="text-sm text-steel">{text.empty}</p>}
+        {!isLoadingPodcasts && podcastError && (
+          <div className="grid gap-4">
+            <p className="text-sm text-steel">{text.empty}</p>
+            <div className="overflow-hidden rounded-3xl border border-white/10 bg-black">
+              <iframe
+                title="ANNIA Hub uploads"
+                src={`https://www.youtube.com/embed/videoseries?list=${UPLOADS_PLAYLIST_ID}`}
+                className="aspect-video w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+            <a href={PODCAST_CHANNEL_URL} target="_blank" rel="noreferrer" className="inline-flex w-fit rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-bone hover:border-cyanMist/70">
+              {text.seeAll}
+            </a>
+          </div>
+        )}
 
         {!isLoadingPodcasts && !podcastError && selectedEpisode && (
           <>
