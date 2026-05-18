@@ -4,25 +4,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        midnight: '#061018',
-        fjord: '#0B1F2A',
-        arctic: '#BDEBFF',
-        cyanMist: '#6FE7F5',
-        lichen: '#8FB8A0',
-        bone: '#F2EFE7',
-        steel: '#8AA0AF',
+        midnight: '#070F24',
+        fjord: '#11284A',
+        arctic: '#D7E7FF',
+        cyanMist: '#7EA6FF',
+        lichen: '#9BB7E8',
+        bone: '#F5F8FF',
+        steel: '#9AAAC8',
       },
       fontFamily: {
         display: ['Inter', 'ui-sans-serif', 'system-ui'],
         body: ['Inter', 'ui-sans-serif', 'system-ui'],
       },
       boxShadow: {
-        glow: '0 0 80px rgba(111, 231, 245, 0.16)',
+        glow: '0 0 80px rgba(126, 166, 255, 0.22)',
         panel: '0 24px 80px rgba(0, 0, 0, 0.32)',
       },
       backgroundImage: {
-        'radial-fjord': 'radial-gradient(circle at 20% 20%, rgba(111,231,245,.16), transparent 28%), radial-gradient(circle at 80% 0%, rgba(143,184,160,.12), transparent 24%), linear-gradient(135deg, #061018 0%, #0B1F2A 52%, #07131B 100%)',
-        grid: 'linear-gradient(rgba(189,235,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(189,235,255,.06) 1px, transparent 1px)',
+        'radial-fjord': 'radial-gradient(circle at 20% 20%, rgba(126,166,255,.20), transparent 28%), radial-gradient(circle at 80% 0%, rgba(155,183,232,.16), transparent 24%), linear-gradient(135deg, #070F24 0%, #11284A 52%, #0A1633 100%)',
+        grid: 'linear-gradient(rgba(215,231,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(215,231,255,.08) 1px, transparent 1px)',
       },
     },
   },
