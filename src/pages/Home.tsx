@@ -10,53 +10,50 @@ import { ImageCard } from '../components/ImageCard'
 import { PartnerCard } from '../components/PartnerCard'
 import { SectionHeader } from '../components/SectionHeader'
 import { StatCard } from '../components/StatCard'
-import { challenges } from '../data/challenges'
-import { ecosystemNodes } from '../data/ecosystem'
-import { insights } from '../data/insights'
-import { partners } from '../data/partners'
-import { stats } from '../data/stats'
+import { useI18n } from '../i18n/I18nProvider'
+import { localizeChallenge, localizeEcosystemNode, localizeInsight, localizePartner, localizeText } from '../i18n/localize'
+import { copy, localizedChallenges, localizedEcosystemNodes, localizedInsights, localizedPartners, localizedStats } from '../i18n/translations'
 
-const operate = [
-  { icon: Compass, title: 'Sense strategic demand', description: 'Identify real institutional, territorial and industry challenges with executive-level relevance.' },
-  { icon: Workflow, title: 'Compose pilot coalitions', description: 'Bring together decision-makers, talent, operators and capital around shared operating briefs.' },
-  { icon: ShieldCheck, title: 'Validate pathways', description: 'Convert exploration into pilots, procurement routes, investment cases and governance models.' },
-]
-
-const timeline = ['Challenge framing', 'Partner matching', 'Pilot sprint', 'Capital pathway', 'Scale decision']
+const operateIcons = [Compass, Workflow, ShieldCheck]
+const featureIcons = [Layers3, Handshake, Blocks]
 
 export function Home() {
+  const { locale, t } = useI18n()
+  const challenges = localizedChallenges.map((challenge) => localizeChallenge(challenge, locale))
+  const ecosystemNodes = localizedEcosystemNodes.map((node) => localizeEcosystemNode(node, locale))
+  const insights = localizedInsights.map((insight) => localizeInsight(insight, locale))
+  const partners = localizedPartners.map((partner) => localizePartner(partner, locale))
+
   return (
     <>
       <Hero />
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[.85fr_1.15fr]">
-          <SectionHeader eyebrow="What is ANNIA" title="A serious coordination layer for systemic change." description="ANNIA connects the actors, intelligence and operational pathways needed to move sustainability and industrial transformation from intent to execution." />
+          <SectionHeader eyebrow={t(copy.home.what.eyebrow)} title={t(copy.home.what.title)} description={t(copy.home.what.description)} />
           <div className="grid gap-5 sm:grid-cols-2">
-            <FeatureCard icon={Layers3} title="Strategic ecosystem platform" description="A common interface for institutions, territories, companies, talent and capital to coordinate around shared missions." />
-            <FeatureCard icon={Handshake} title="Nordic innovation diplomacy" description="A trusted convening model for cross-border partnerships, public-private alignment and applied collaboration." />
-            <FeatureCard icon={Blocks} title="Executive systems lab" description="Structured pilots, decision briefs and insight products designed for leaders building future infrastructure." />
-            <ImageCard image="/assets/hero/fjord-network.svg" eyebrow="Platform direction" title="Human, industrial and territorial intelligence in one operating environment." />
+            {copy.home.features.map((feature, index) => <FeatureCard key={t(feature.title)} icon={featureIcons[index]} title={t(feature.title)} description={t(feature.description)} />)}
+            <ImageCard image="/assets/hero/fjord-network.svg" eyebrow={t(copy.home.imageCard.eyebrow)} title={t(copy.home.imageCard.title)} />
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-        <SectionHeader eyebrow="How we operate" title="From strategic signal to applied pilot." description="ANNIA is designed as infrastructure: repeatable enough to scale, bespoke enough for complex real-world systems." />
-        <div className="mt-10 grid gap-5 md:grid-cols-3">{operate.map((item) => <FeatureCard key={item.title} {...item} />)}</div>
+        <SectionHeader eyebrow={t(copy.home.operate.eyebrow)} title={t(copy.home.operate.title)} description={t(copy.home.operate.description)} />
+        <div className="mt-10 grid gap-5 md:grid-cols-3">{copy.home.operate.cards.map((item, index) => <FeatureCard key={t(item.title)} icon={operateIcons[index]} title={t(item.title)} description={t(item.description)} />)}</div>
         <GlassPanel className="mt-8 p-6">
-          <div className="grid gap-4 md:grid-cols-5">{timeline.map((item, index) => <div key={item} className="relative rounded-2xl border border-white/10 bg-white/5 p-4"><p className="text-sm text-cyanMist">0{index + 1}</p><p className="mt-2 font-semibold text-bone">{item}</p></div>)}</div>
+          <div className="grid gap-4 md:grid-cols-5">{copy.home.operate.timeline.map((item, index) => <div key={t(item)} className="relative rounded-2xl border border-white/10 bg-white/5 p-4"><p className="text-sm text-cyanMist">0{index + 1}</p><p className="mt-2 font-semibold text-bone">{t(item)}</p></div>)}</div>
         </GlassPanel>
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[.9fr_1.1fr]">
-          <SectionHeader eyebrow="Spring Challenges" title="Applied Innovation Pilots for Real-World Challenges" description="Spring Challenges are ANNIA’s first activation mechanism: collaborative innovation pilots where companies, institutions and international talent explore concrete solutions for sustainability, industry and territorial transformation." />
+          <SectionHeader eyebrow={t(copy.home.spring.eyebrow)} title={t(copy.home.spring.title)} description={t(copy.home.spring.description)} />
           <div className="grid gap-5 md:grid-cols-2">{challenges.slice(0, 2).map((challenge) => <ChallengeCard key={challenge.id} challenge={challenge} />)}</div>
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-        <SectionHeader eyebrow="Ecosystem Explorer" title="A living map of people, institutions, territories, talent, capital and applied innovation." align="center" />
+        <SectionHeader eyebrow={t(copy.home.explorer.eyebrow)} title={t(copy.home.explorer.title)} align="center" />
         <GlassPanel className="relative mt-10 min-h-[36rem] overflow-hidden p-6">
           <div className="absolute inset-10 rounded-full border border-cyanMist/10" />
           <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyanMist/10 blur-3xl" />
@@ -66,12 +63,12 @@ export function Home() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-        <SectionHeader eyebrow="Platform preview" title="Operational signals, not marketing noise." description="The interface is prepared for partner dashboards, challenge submissions, talent profiles, opportunity marketplaces and matchmaking workflows." />
-        <div className="mt-10 grid gap-5 md:grid-cols-4">{stats.map((stat) => <StatCard key={stat.label} {...stat} />)}</div>
+        <SectionHeader eyebrow={t(copy.home.preview.eyebrow)} title={t(copy.home.preview.title)} description={t(copy.home.preview.description)} />
+        <div className="mt-10 grid gap-5 md:grid-cols-4">{localizedStats.map((stat) => <StatCard key={stat.value} value={stat.value} label={localizeText(stat.label, locale)} />)}</div>
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-        <SectionHeader eyebrow="Institutions and partners" title="Built for credible coalitions." />
+        <SectionHeader eyebrow={t(copy.home.partners.eyebrow)} title={t(copy.home.partners.title)} />
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">{partners.map((partner) => <PartnerCard key={partner.name} partner={partner} />)}</div>
       </section>
 
@@ -84,8 +81,8 @@ export function Home() {
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
         <GlassPanel className="p-8 md:p-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_.8fr]">
-            <SectionHeader eyebrow="Start a collaboration" title="Bring a serious challenge into the ANNIA operating environment." description="Apply as a partner, submit a challenge, or join the talent network for upcoming Spring Challenges." />
-            <div className="flex flex-col justify-center gap-4 sm:flex-row lg:flex-col"><CTAButton to="/contact">Apply as Partner</CTAButton><CTAButton to="/contact" variant="secondary">Submit a Challenge</CTAButton><CTAButton to="/contact" variant="ghost">Join Talent Network</CTAButton></div>
+            <SectionHeader eyebrow={t(copy.home.collaboration.eyebrow)} title={t(copy.home.collaboration.title)} description={t(copy.home.collaboration.description)} />
+            <div className="flex flex-col justify-center gap-4 sm:flex-row lg:flex-col"><CTAButton to="/contact">{t(copy.home.collaboration.apply)}</CTAButton><CTAButton to="/contact" variant="secondary">{t(copy.home.collaboration.submit)}</CTAButton><CTAButton to="/contact" variant="ghost">{t(copy.home.collaboration.join)}</CTAButton></div>
           </div>
         </GlassPanel>
       </section>

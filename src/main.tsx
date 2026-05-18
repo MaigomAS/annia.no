@@ -9,6 +9,7 @@ import { Home } from './pages/Home'
 import { Insights } from './pages/Insights'
 import { NotFound } from './pages/NotFound'
 import { SpringChallenges } from './pages/SpringChallenges'
+import { I18nProvider } from './i18n/I18nProvider'
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <I18nProvider>
+      <RouterProvider router={router} />
+    </I18nProvider>
   </React.StrictMode>,
 )
