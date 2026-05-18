@@ -5,7 +5,7 @@
 
 :root {
   color-scheme: dark;
-  background: #061018;
+  background: #070F24;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -19,7 +19,7 @@ body {
 }
 
 ::selection {
-  background: rgba(111, 231, 245, 0.28);
+  background: rgba(126, 166, 255, 0.30);
 }
 
 button,

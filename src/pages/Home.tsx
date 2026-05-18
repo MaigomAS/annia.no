@@ -57,7 +57,7 @@ export function Home() {
         <GlassPanel className="relative mt-10 min-h-[36rem] overflow-hidden p-6">
           <div className="absolute inset-10 rounded-full border border-cyanMist/10" />
           <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyanMist/10 blur-3xl" />
-          <svg className="absolute inset-0 h-full w-full opacity-50" aria-hidden="true"><line x1="46%" y1="40%" x2="12%" y2="24%" stroke="#6FE7F5" strokeWidth="1" /><line x1="46%" y1="40%" x2="68%" y2="16%" stroke="#6FE7F5" strokeWidth="1" /><line x1="46%" y1="40%" x2="78%" y2="62%" stroke="#6FE7F5" strokeWidth="1" /><line x1="46%" y1="40%" x2="22%" y2="70%" stroke="#6FE7F5" strokeWidth="1" /><line x1="46%" y1="40%" x2="46%" y2="82%" stroke="#6FE7F5" strokeWidth="1" /></svg>
+          <svg className="absolute inset-0 h-full w-full opacity-50" aria-hidden="true"><line x1="46%" y1="40%" x2="12%" y2="24%" stroke="#7EA6FF" strokeWidth="1" /><line x1="46%" y1="40%" x2="68%" y2="16%" stroke="#7EA6FF" strokeWidth="1" /><line x1="46%" y1="40%" x2="78%" y2="62%" stroke="#7EA6FF" strokeWidth="1" /><line x1="46%" y1="40%" x2="22%" y2="70%" stroke="#7EA6FF" strokeWidth="1" /><line x1="46%" y1="40%" x2="46%" y2="82%" stroke="#7EA6FF" strokeWidth="1" /></svg>
           {ecosystemNodes.map((node) => <EcosystemNode key={node.label} node={node} />)}
         </GlassPanel>
       </section>
